@@ -95,7 +95,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 String body = new String(responseBody);
-                fileIO.writeToFile(fileIO.FILENAMECALENDAR, body);
+                fileIO.writeToFile(fileIO.getFILENAMECALENDAR(), body);
                 System.out.println(body);
                 updateCalendar();
             }
@@ -109,10 +109,10 @@ public class CalendarActivity extends AppCompatActivity {
     }
 
     public void updateCalendar() {
-        File file = new File(getBaseContext().getFilesDir(), fileIO.FILENAMECALENDAR);
+        File file = new File(getBaseContext().getFilesDir(), fileIO.getFILENAMECALENDAR());
         if (file.exists()) {
             try {
-                String body = fileIO.readFile(fileIO.FILENAMECALENDAR);
+                String body = fileIO.readFile(fileIO.getFILENAMECALENDAR());
                 JSONObject jsonBody = new JSONObject(body);
                 JSONArray response = new JSONArray(jsonBody.getString("response"));
                 hm_calendarDate.clear();

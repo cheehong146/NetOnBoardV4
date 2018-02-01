@@ -21,8 +21,8 @@ public class GlobalFileIO {
     static final String FILENAMEHISTORY = "serverHistory";
     static final String FILENAMESUPPORT = "support";
     static final String FILENAMENOTIFYTIME = "notifyTime";
-    public static final String FILENAMEREMARK = "remark";
-    public static final String FILENAMECALENDAR = "companyCalendar";
+    static final String FILENAMEREMARK = "remark";
+    static final String FILENAMECALENDAR = "companyCalendar";
 //    final File fileDown = new File(context.getFilesDir(), FILENAMEDOWN);
 //    final File fileHistory = new File(context.getFilesDir(), FILENAMEHISTORY);
 //    final File fileSupport = new File(context.getFilesDir(), FILENAMESUPPORT);

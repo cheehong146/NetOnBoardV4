@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/standby_header"
-        android:background="#FFFFFF"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingBottom="10dip"
@@ -19,19 +18,20 @@
 
         <TextView
             android:id="@+id/tv_standby_descrip"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="right"
-            android:text="Standby:" />
+            android:paddingRight="8dp"
+            android:text="Standby:"
+            android:layout_gravity="start"
+            android:textSize="18dp"/>
 
         <TextView
             android:id="@+id/tv_standby_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="left"
-            android:text="Standby Support Data" />
+            android:text="Standby Support Data"
+            android:textSize="14dp"/>
 
 
     </LinearLayout>

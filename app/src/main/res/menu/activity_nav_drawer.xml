@@ -10,4 +10,17 @@
             android:title="Calendar" />
     </group>
 
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_server_down"
+            android:icon="@drawable/ic_cloud_off_black_24dp"
+            android:iconTint="@color/colorRed"
+            android:title="Server Down"/>
+
+        <item
+            android:id="@+id/nav_server_history"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Server History"/>
+    </group>
+
 </menu>
