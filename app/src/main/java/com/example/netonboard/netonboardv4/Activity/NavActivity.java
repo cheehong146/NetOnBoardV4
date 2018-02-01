@@ -3,7 +3,6 @@ package com.example.netonboard.netonboardv4.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +20,13 @@ import android.widget.TextView;
 import com.example.netonboard.netonboardv4.Fragments.SupportMain;
 import com.example.netonboard.netonboardv4.Fragments.SupportServerDown;
 import com.example.netonboard.netonboardv4.Fragments.SupportServerHistory;
+import com.example.netonboard.netonboardv4.Object.GlobalFileIO;
 import com.example.netonboard.netonboardv4.R;
 import com.example.netonboard.netonboardv4.Services.BackgroundService;
 import com.example.netonboard.netonboardv4.Adapter.PagerAdapter;
 
-import java.util.Calendar;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class NavActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,7 +34,7 @@ public class NavActivity extends AppCompatActivity
     TextView tv_drawer_title, tv_drawer_username;
     PagerAdapter pagerAdapter;
     ViewPager viewPager;
-
+    GlobalFileIO fileIO;
     FrameLayout content_frame;
 
     @Override
@@ -42,6 +43,7 @@ public class NavActivity extends AppCompatActivity
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitle("Home");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,29 +58,41 @@ public class NavActivity extends AppCompatActivity
         String s_username = LoginActivity.sp_name.getString("key", "");
         tv_drawer_username.setText(s_username);
 
-        String userType = "support";
+        fileIO = new GlobalFileIO(getBaseContext());
 
         content_frame = (FrameLayout) findViewById(R.id.nav_content_framelayout);
-        LayoutInflater factory = LayoutInflater.from(this);
+        LayoutInflater factory = LayoutInflater.from(getBaseContext());
+        View homepageView = factory.inflate(R.layout.homepage, null);
+        content_frame.addView(homepageView);
 
-        switch (userType){
-            case "support":
-                View typeView = factory.inflate(R.layout.support_tab_content, null);
-                content_frame.addView(typeView);
+        if(content_frame.getChildCount() == 1){
 
-                pagerAdapter = new PagerAdapter(getSupportFragmentManager());
-                viewPager = (ViewPager) findViewById(R.id.support_viewPager);
-                setupPagerAdapter(viewPager);
+            TextView tv_homepage_claim_data = (TextView) findViewById(R.id.tv_homepage_claim_data);
+            TextView tv_homepage_leave_data = (TextView) findViewById(R.id.tv_homepage_leave_data);
+            tv_homepage_claim_data.setText("RM50 claim");
+            tv_homepage_leave_data.setText("50 Days");
 
-                TabLayout tabLayout = (TabLayout)findViewById(R.id.support_tab);
-                tabLayout.setupWithViewPager(viewPager);
-                break;
-            case "normal":
-                View normalView = factory.inflate(R.layout.activity_calendar, null);
-                content_frame.addView(normalView);
-                Toolbar calendarToolbar = (Toolbar) normalView.findViewById(R.id.toolbar);
-                break;
-            default:
+            TextView tv_support_primary = (TextView) findViewById(R.id.tv_homepage_support_primary_data);
+            TextView tv_support_secondary = (TextView) findViewById(R.id.tv_homepage_support_secondary_data);
+
+
+            try{
+                String body = fileIO.readFile(fileIO.getFILENAMESUPPORT());
+                JSONObject jsonObject = new JSONObject(body);
+                String primarySupport = jsonObject.getString("s_user_id_standby");
+                String secondarySupport = jsonObject.getString("s_user_id_standby_backup");
+                tv_support_primary.setText(primarySupport);
+                tv_support_secondary.setText(secondarySupport);
+            } catch (JSONException e) {
+                e.printStackTrace();
+                tv_support_primary.setText("Failed to load data");
+                tv_support_secondary.setText("Failed to load data");
+            }
+
+            TextView tv_garbage_collector_date = (TextView) findViewById(R.id.tv_garbage_collector_date);
+            TextView tv_garbage_collector = (TextView) findViewById(R.id.tv_garbage_collector_name);
+            tv_garbage_collector_date.setText("(28-09-18):");
+            tv_garbage_collector.setText("Chee Hong");
         }
     }
 

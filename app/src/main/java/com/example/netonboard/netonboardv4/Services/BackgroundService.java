@@ -179,7 +179,7 @@ public class BackgroundService extends Service {
         if (fileRemark.exists()) {
             SharedPreferences pref = getSharedPreferences("UserData", MODE_PRIVATE);
             final String storedUserID = pref.getString("userID", "-1");
-            String body = fileIO.readFile(fileIO.FILENAMEREMARK);
+            String body = fileIO.readFile(fileIO.getFILENAMEREMARK());
             String delims = ";";
             String[] token = body.split(delims);
             final String sosID = token[0];
